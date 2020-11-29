@@ -1,0 +1,87 @@
+Imię i nazwisko: Pawel Niedziółka, 16.01.2019
+Przetwarzanie obrazów 2 - sprawozdanie
+
+Mój program składa się z 4 plików.
+po2.c - zawiera kody źródłowe funkcji używanych w po2main.c
+struct.h - plik nagłówkowy w którym są tylko i wyłącznie struktury
+po2.h - plik nagłówkowy zawierający prototypy funkcji
+po2main.c - plik w którym znajduje się int main
+
+Do kompilacji programu na serwerze diablo używałem pliku Makefile.
+---------------------------------------------------------
+|	#plik makefile					|
+|	all:a.out					|
+|							|
+|	po2.o:po2.c po2.h struct.h			|
+|		gcc -Wall -c po2.c			|
+|							|		
+|	main.o:po2main.c po2.h struct.h			|
+|		gcc -Wall -c po2main.c			|
+|							|
+|	a.out:main.o po2.o po2.h struct.h		|
+|		gcc po2main.o po2.o			|
+---------------------------------------------------------
+
+Testy programu:
+Test ten ma na celu sprawdzenie poprawności działania programu na zmiennych dynamicznych, wraz z wprowadzaniem poleceń zgodnie z zadaniami do wykonania.
+
+Po każdym wykonaniu programu kod zwraca na standardowe wyjście pewną liczbę. Znaczenie tych liczb wyjaśnione w tabelce poniżej.
+*************************************************************************
+*  Liczba |                       Znaczenie				*
+*    0    |   Brak błędów - program działa poprawnie			*
+*   -1    |   Błąd przy wybieraniu opcji 				*
+*   -2    |   Brak nazwy pliku wczytywanego/zapisywanego pliku @@@@	*
+*   -3    |   Brak wartości (progu/koloru przetwarzania			*
+*   -4    |   Brak pliku wczytywanego					*
+*************************************************************************
+@@@@ - przykład:  
+bash$ ./a.out -io
+Kod wykonania programu: -2
+P2 
+0 0
+0
+
+W moim programie nie używałem asercji - zamieniłem je na instrukcje warunkowe widoczne w funkcji przetwarzaj_opcje (251 linijka - po2.c). 
+W przypadku, gdy będziemy chcieli do obrazu w odcieniach szarości wykonać konwersje kolorów (-m [r/g/b/s]) otrzymamy komunikat: "To nie jest obraz kolorowy!", oraz dostaniemy Kod wykonania programu = -1 (podaliśmy złą opcję, ponieważ nie może być ona wykonana).
+
+Dokonałem modyfikacji funkcji znajdującej się w opcje.c w materiałach do wykonania tego zadania. 
+Dodałem kolejną 'flagę' - konwersja w strukturze w_opcje. Jest ona odpowiedzialna za obsługę obrazów kolorowych (magiczne P3). Musiałem też więc przerobić funkcję int czytaj (16 linijka - po2.c) , aby 
+1) działała na zmiennych dynamicznych
+2) rozpoznawała także obrazy ppm - kolorowe (magiczne P3)
+Zmodyfikowałem również funkcję zapisz (96 linia - po2.c), aby dla obrazów kolorowych zapis był inny niż dla obrazów w odcieniach szarości.
+
+Instrukcja poprawnego wprowadzania poleceń
+*****************************************************************************************
+*   Parametr: 	|             		     Działanie:					*
+*      -d	|                 wyświetlanie zdjęcia - display			*
+*   -i [-/...]	|                  wczytywanie zdjęcia - nazwa lub -			*
+*   -o [-/...]	|                   zapisywane zdjęcie - nazwa lub -			*
+*   -p [prog]   |              progowanie - w miejscu prog liczba [0,100]		*
+*      -n	|                              negatyw					*	
+*      -k	|                           konturowanie				*
+*  -m [r/g/b/s]	|   działanie na obrazach kolorowych ppm r-red/g-green/b-blue/s-szarość	*
+*****************************************************************************************
+
+Wszystkie operacje, które wykorzystywane były w Przetwarzaniu obrazów 1 (negatyw, konturowanie, progowanie) DZIAŁAJĄ POPRAWNIE na plikach pgm. 
+Chciałem sprawdzić także działanie na plikach ppm, jednak nie mogłem w ogóle otworzyć tego typu obrazu na diablo - być może dlatego, że nie sprawdzałem tego na systemie linuxowym.
+
+Testy uruchamiania: (### - komentarze)
+-bash-3.2$ ./a.out -i kubus.pgm -o kubuswyj.pgm -n
+Kod wykonania programu: 0
+### Program zapisał negatyw obrazu w pliku kubuswyj.pgm
+
+-bash-3.2$ ./a.out -i kubus.pgm -o kubuswyj.pgm -p
+Kod wykonania programu: -3
+### Program napotkał bład - brak progu
+
+-bash-3.2$ ./a.out -i kubus.pgm -o kubuswyj.pgm -p 20
+Kod wykonania programu: 0
+### Program zapisał progowanie o wartości 20% w pliku kubuswyj.pgm
+
+-bash-3.2$ ./a.out -i kubus.pgm -o kubuswyj.pgm -m r
+To nie jest obraz kolorowy!
+Kod wykonania programu: -1
+### Program napotkał błąd - jest to obraz pgm, a nie ppm.
+
+Wnioski:
+Dla plików pgm program działa w 100% poprawnie. Dla plików ppm również powinien działać poprawnie, jednak jak pisałem wyżej nie jestem sprawdzić czy będzie działać bezbłędnie.

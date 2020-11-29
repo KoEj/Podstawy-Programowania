@@ -1,0 +1,51 @@
+Paweł Niedziółka, 29.11.2018
+Przetwarzanie obrazów 1 - sprawozdanie
+
+Testy programu: 
+Testy prowadzone były w środowisku Linuxowym, poprzez polecenie display. Obrazem testowanym był kubus.pgm, dołączony w materiałach do zadania.
+
+(Int zapisz)
+Zapisuje nowe dane do nowego pliku.
+P2
+x y
+Szarosci
+…
+…
+…
+…
+
+1. Opcja (obraz oryginalny) - program poprawnie otwiera przy pomocy polecenia ‚display’ obraz.
+Zwrócona wartość - 0.
+
+2. Opcja (negatyw) - program wykonuje zamiany w (int negatyw). Zmienia każdą wartość obrazu[i][j] na przeciwną. Wynikiem jest obraz kubus.pgm w negatywie.
+Zwrócona wartość - 0.
+
+3. Opcja (progowanie) - podajemy wartość progowania (w %). Zamiana i porównanie jest wykonywane w (int progowanie); int p - ustalona granica progowania. Jeżeli wartość obraz_pgm[i][j] jest mniejsza lub równa od progu to przypisuje się jej wartość 0 w przeciwnym razie *szarosci. (MAX wartosc w obrazie).
+Zwrócona wartość - 0.
+
+4. Opcja (konturowanie) - zamiana i porównanie (dolnej i prawej) sąsiedniej komórki jest wykonywane w (int konturowanie). Wykorzystana tu funkcja abs(int) zwraca wartość bezwzględną z int. (Warunek konturowania w materiałach).
+Zwrócona wartość - 0.
+
+5. Opcja (wyjście z programu)
+Wyjście z pętli wybierania czynności do wykonania. Za k przypisujemy wartość stałej symbolicznej KONIEC co powoduje wyjście z pętli i programu.
+Zwrócona wartość - 99.
+
+Po każdym wyborze program otwiera nowy plik -> wykonuje pewną czynność (do wybrania opcje 1. 2. 3. 4. 5.) -> zapisuje plik -> zamyka plik.
+
+Co jeśli plik, który chcemy wczytać nie istnieje?
+Na ekranie ukaże się komunikat: „Nie ma takiego pliku!”, po czym program skończy prace.
+Zwrócona wartość - 99.
+
+Instrukcja wyboru (int wybor)
+Założenie - !!!wpisana liczba musi być typu integer!!!
+Po wybraniu konkretnego przypadku zostanie zwrócona liczba, którą wykorzystałem do wybrania czynności w (int main)
+W momencie kiedy wpiszemy złą liczbę, otrzymamy komunikat „Podales zla liczbe” i będziemy musieli wpisać dobrą.
+
+Po co getchar();?
+Po każdym przejściu dałem taką komendę, ponieważ podczas testów dochodziło do nieoczekiwanego zamknięcia pliku (program nie zdążył przetworzyć zdjęcia i wyłączał się za szybko). Dodanie polecenia getchar() sprawia, że program działa poprawnie. 
+Po wyświetleniu pliku, w konsoli pojawi się komunikat („Kliknij dowolny przycisk”). Po kliknięciu dowolnego przycisku ponownie pojawi się menu wyboru (aż do momentu wyjścia).
+
+Program zapisuje obraz do pliku „nazwa_zapis.pgm”
+
+Wnioski:
+Program działa prawidłowo. Czasem konieczne jest dodanie różnych poleceń takich jak np. getchar(), aby program zaczął dobrze działać.

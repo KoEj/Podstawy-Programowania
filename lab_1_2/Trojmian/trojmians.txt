@@ -1,0 +1,32 @@
+SPRAWOZDANIE Z ROWNANIA KWADRATOWEGO
+1) a=0 , b i c - dowolne liczby
+   a=0
+   b=4
+   c=3
+odp: Jest to rozwiazanie liniowe o rozwiazaniu x=-0,75.
+
+y=4x+3
+W tym przypadku a=0. Program poprawnie wykrywa, ze nie jest to rownanie kwadratowe, tylko rozwiazanie liniowe i daje poprawne rozwiazanie.
+
+
+2) a=1, b=2, c=3    delta<0
+
+odp: Brak rozwiazan rzeczywistych.
+
+Program poprawnie wyliczyl, ze delta<0, a co za tym idzie nie ma rozwiazan rownania ax^2+2x+3=0
+
+3) a=2, b=4, c=2    delta=0
+
+odp: Rozwiazaniem sa x1=x2=-1.0
+
+Program wyliczyl, ze wartosc parametru delta=0, wiec istnieje jedno rozwiazanie rzeczywiste x1=x2=-1.
+
+4) a=2, b=9, c=4    delta>0
+
+odp: Rozwiazaniem sa x1=-4 i x2=-0,5
+
+Program wyliczyl, ze delta>0 i istnieja dwa rozwiazania rzeczywiste x1=-4 i x2=-0,5
+
+
+
+Wnioski: Program dziala poprawnie. Uwzglednia on wszystkie mozliwe przypadki, jakie sa mozliwe przy funkcji kwadratowej.

@@ -1,0 +1,107 @@
+Imię i nazwisko: Paweł Niedziółka
+Temat: Praca z uniksowym interpreterem poleceń oraz systemem X Window
+Data wykonania: 14.12.2018
+
+------------------------------------------------------------------------------------
+
+(Wyświetlanie informacji o wielkości katalogów)
+bash$ alias lhs="du -h | sort -n -r”
+
+Polecenie du pokazuje nam katalogi.
+Parametr -h -> konwertuje wielkości plików na format czytelny dla człowieka).
+Polecenie sort sortuje pliki 
+Parametr -n -> sortowanie numeryczne (sortuje pliki jako łańcuch który może zawierać białe znaki np. spacja)
+Parametr -r -> wyświetlanie odwrócone (domyślnie sortowanie jest od najmniejszego do największego - parametr ten sprawia, że katalogi wyświetlają się w odwrotnej kolejności)
+
+Testy: Po stworzeniu aliasu użyłem polecenia lhs. Otrzymałem następujący wynik:
+ 381M   .
+  32K   ./Programy ocenione
+  20K   ./Trojmian
+   8K   ./.ssh
+   8K   ./.emacs.d
+   4K   ./.emacs.d/auto-save-list
+Testy przebiegły pomyślnie!
+
+------------------------------------------------------------------------------------
+
+(Wykonywanie operacji na plikach o nazwie pasującej do wzorca)
+bash$ find . -name "#*#" -exec rm '{}' \;
+bash$ find . -name „*~” -exec rm '{}' \;
+
+Polecenie find szuka plików zakończonych na ~ (____~) oraz zawierające # przed i po nazwie (#______#). 
+Parametr -exec z poleceniem rm wykonuje usuwanie wypisanych plików.
+
+Polecenie to było testowane:
+bash$ find . -name "#*#" -exec echo '{}' \;
+Wypisywało ono nazwy plików, które spełniały parametr -name "#*#".
+Analogicznie w drugim przypadku (-name "*~").
+Testy wyszły pomyślnie!
+
+------------------------------------------------------------------------------------
+
+(Przeszukiwanie ostatnio modyfikowanych plików) 
+bash$ find . -mtime -10d -type f -exec grep -l "main" '{}' \;
+
+-mtime - czas modyfikacji programu (w tym przypadku mniejszy niż 10 dni)
+-type - typ elementu (w tym przypadku f - file/plik)
+-exec grep "main" (wypisuje wszystkie elementy gdzie wystąpiło "main" | parametr -l wypisuje pliki zawierające "main")
+
+Testy: Po wpisaniu polecenia w terminalu otrzymałem następujący wynik:
+./.bash_history
+./przecieciazera.c~
+./przecieciazera.c
+./obrazow.c
+We wszystkich tych elementach zostało użyte słowo "main".
+Testy przebiegły pomyślnie!
+
+------------------------------------------------------------------------------------
+
+(Modyfikacja nazw plików) 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SKRYPT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#!/bin/bash                                                                        
+for nazwa in *JPG
+do
+    NEWNAME="${nazwa/%.JPG/.jpg}"
+    mv "$nazwa" "$NEWNAME"
+done
+
+for nazwa in *PNG
+do
+    NEWNAME="${nazwa/%.PNG/.png}"
+    mv "$nazwa" "$NEWNAME"
+done
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SKRYPT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Testy: Stworzyłem pliki przy pomocy polecenia touch o rozszerzeniach .JPG oraz .PGM. Po uruchomieniu skryptu pliki zmieniły nazwy swoich rozszerzeń na odpowiednio .jpg oraz .pgm.
+Testy przebiegły pomyślnie!
+
+Próbując wywołać skrypt, kiedy w katalogu nie ma plików o rozszerzeniach .JPG/.PNG dostajemy komunikat: 
+mv: cannot access *JPG
+mv: cannot access *PNG
+Polecenie mv nie może znaleźć plików o zadeklarowanym rozszerzeniu.
+
+(Próbowałem użyć instrukcji if -> [count=`ls -1 *.PNG 2>/dev/null | wc -l` if[$count!=0]...<- jednak wówczas skrypt nie działał poprawnie, dlatego zrezygnowałem z tego udogodnienia kosztem poprawnego działania programu.
+
+------------------------------------------------------------------------------------
+
+(Praca z polską lokalizacją) 
+bash$ LANG="pl_PL.ISO8859-2"
+
+Polskie znaki:
+W emacs - brak zmian
+W terminalu - brak zmian
+W przeglądarce - brak zmian
+
+Znaki z kodowania UTF zmieniają kodowanie na ISO. Nie ma to jednak wpływu na polskie litery, gdyż w formacie ISO-8859-2 występują odpowiedniki polskich liter.
+Format ISO jest uboższy od UTF - jest ograniczony do 256 znaków.
+UTF-8 pozwala zakodować o wiele więcej znaków i to on jest stosowany dzisiaj, jako główny format kodowania.
+
+Wnioski:
+Jeżeli chcielibyśmy napisać symbole powinniśmy wybrać UTF, ponieważ nie mamy pewności czy dany symbol będzie istniał w ISO.
+Wygodniej pracować jest na przeglądarce z kodowaniem UTF-8 - ISO-8895-2 ma odpowiedniki polskich liter, a ISO-8895-5 cyrylicy. (https://en.wikipedia.org/wiki/ISO/IEC_8859-5).
+UTF-8 ujednolica system kodowania znaków i daje więcej możliwości niż inne systemy kodowania.
+
+------------------------------------------------------------------------------------
+
+
+

@@ -1,0 +1,72 @@
+Kalkulator RPN
+Paweł Niedziółka, 31.01.2019
+
+*****************************************
+* #plik makefile                  	*                                    
+* all:a.out				*
+*					*
+* kalkulator.o:kalkulator.c header.h	*
+*        gcc -Wall -c kalkulator.c	*
+*					*
+* main.o:main.c header.h		*
+*        gcc -Wall -c main.c		*
+*					*
+* a.out:main.o kalkulator.o		*
+*        gcc main.o kalkulator.o	*
+*****************************************
+
+Funkcje pop i push odpowiednio - zdejmują element ze stosu/dodają nowy element na górę stosu - alokowany w pamięci dynamicznej
+
+W funkcji push - next to nowy element który dodawany jest do góry stosu
+gora - element do którego mamy dostęp w stosie
+
+----------------------
+TESTY:
+1) Dodawanie 
+./a.out 42 2 +
+Wynik: 44
+
+./a.out 43 50 +
+Wynik: 93
+
+./a.out 69+42  //tutaj program sie wywala
+Argv jest za duzy 
+
+Jak naprawić ten błąd? Program ma problem z zakresem - oczekuje, że jeżeli podajemy dwie liczby z dwoma cyframi wynik także będzie z dwoma cyframi. Jak temu zapobiec? Wystarczy dodać 0 przed którąkolwiek z liczb
+./a.out 69 042 +
+Wynik: 111
+./a.out 069 42 +
+Wynik: 111
+----------------------
+TESTY
+2) Odejmowanie
+./a.out 6 2 -
+Wynik: 4
+
+./a.out 2 6 -
+Wynik: -4
+
+./a.out 100 2 -
+Wynik: 98
+----------------------
+TESTY
+3) Mnożenie
+
+Niestety mnożenie nie działa. Z racji na i tak spóźnione oddanie sprawozdania jak i programu (kolokwia z innych przedmiotów) nie udało mi się zrobić mnożenia tak, aby działało poprawnie.
+
+./a.out 4 2 *
+Argv jest za duzyZly znakZly znakArgv jest za duzyZly znakZly znakArgv jest za duzyZly znakZly znakArgv jest za duzyZly znakZly znakArgv jest za duzyZly znakZly znakArgv jest za duzyZly znakZly znakArgv jest za duzyZly znakZly znakArgv jest za duzyZly znakZly znakArgv jest za duzyZly znakZly znakArgv jest za duzyZly znakZly znakZa dużo argumentów
+
+----------------------
+TESTY
+4) Dzielenie (należy pamiętać ze jest to dzielenie CAŁKOWITE - bez reszty]
+./a.out 100 2 /
+Wynik: 50
+
+./a.out 5 2 /
+Wynik: 2
+
+./a.out 63 2 /
+Wynik: 31
+----------------------
+WNIOSKI - należy uważać, aby w dodawaniu nie przekroczyć zakresu działań (ew. Dodać cyfrę 0 przed jedną z liczb). Wszystkie operacje (dodawanie i usuwanie) na stosie działają poprawnie. Z działań arytmetycznych dodawanie, odejmowanie i dzielenie działają poprawnie. W mnożeniu występuje błąd (komentarz w pliku headers.c - coś tam musi nie działać)

@@ -1,0 +1,58 @@
+Paweł Niedziółka, 4.11.2018
+Przecięcia zera - sprawozdanie. 
+
+Testy programu - oparte na 2 różnych danych wejściowych
+Dane wejściowe 1: http://kcir.pwr.edu.pl/~mucha/PProg/Pomoce/przeciecia_zera1.txt
+Dane wejściowe 2: http://kcir.pwr.edu.pl/~mucha/PProg/Pomoce/przeciecia_zera2.txt
+
+
+
+W terminalu po wpisaniu komendy: cat przeciecia_zera1.txt | cut -d” „ -f 2 | ./a.out otrzymałem następujące wyniki:
+
+Liczba przeciec zera: 11
+Zla czestotliwosc!
+Liczba przeciec zera: 10
+Liczba przeciec zera: 12
+Liczba przeciec zera: 12
+Liczba przeciec zera: 12
+Liczba przeciec zera: 12
+Liczba przeciec zera: 13
+Zla czestotliwosc!
+Liczba przeciec zera: 11
+
+W przypadku, gdy częstotliwość przecięć zer jest mniejsza/większa niż w specyfikacji program wypisuje na ekranie: „Zła częstotliwość”. Jeżeli mieści się w zakresie, wówczas program wypisuje dokładnie ile razy zostało przecięte zero.
+Po przeanalizowaniu danych wejściowych 1 stwierdziłem, że wyniki wypisane przez program są prawidłowe.
+
+
+
+W terminalu po wpisaniu komendy: cat przeciecia_zera2.txt | cut -d” „ -f 2 | ./a.out otrzymałem nastepujące wyniki:
+
+Liczba przeciec zera: 11
+Zla czestotliwosc!
+Liczba przeciec zera: 10
+Liczba przeciec zera: 11
+Liczba przeciec zera: 11
+Liczba przeciec zera: 12
+Liczba przeciec zera: 12
+Liczba przeciec zera: 14
+Zla czestotliwosc!
+Liczba przeciec zera: 12
+
+Podobnie jak poprzednio, gdy częstotliwość przecięcia zer jest mniejsza/większa niż w specyfikacji program wypisuje „Zła częstotliwość!” Jeżeli mieści się w zakresie to wypisuje ile razy zostało przecięte zero.
+W tym przypadku, nie jestem pewny odnośnie wyników  - możliwe że pominąłem pewną wartość (mało widoczną).
+
+Wnioski:
+Możliwe, że dane2 mają specyficznie podane liczby -> mogłem niezauważyć pojedynczych zmian znaków. Wówczas działanie programu można uznać za poprawne.
+Inną opcją może być błąd w kodzie programu, lub błąd w danych.
+
+
+
+Testy programu (ręcznie)
+Sprawdziłem czy dla ciągów liczb 5,0,5... // -1, 0, 0,... // i innych dosyć skrajnych danych. Po ich sprawdzeniu program wskazywał prawidłowa liczbę przecięć. 
+W miejscach, gdzie nie doszło do przecięcia (występowało 0) program nie zlicza przecięć.
+Po skończeniu limitu liczb (sort) program nie bierze wartości poprzedniej liczby do porównania, tylko zastępuje ją 0.
+Podczas podania liczby "99" program kończy pracę.
+Program poprawnie sprawdza czy liczby i częstotliwość należą do danego przedziału.
+
+Wnioski końcowe:
+Program polega na zliczaniu przecięć zera. Jest "uczulony" na różne szczególne przypadki. Pokazuje, kiedy częstotliwość przecięć jest prawidłowa (oraz ilość), a w innym przypadku pokazuje komunikat o błędnej częstotliwości.
